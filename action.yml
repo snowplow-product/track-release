@@ -30,4 +30,4 @@ runs:
     - name: Track the event
       shell: bash
       run: |
-        ./snowplow-tracking-cli -c collector-rt.snplow.com --id component-release -s iglu:com.snowplowanalytics.engineering/release/jsonschema/1-1-0 -j '{"component": "'${{ inputs.component }}'", "version": "'${{ inputs.version }}'", "team": "'${{ inputs.team }}'"}'
+        ./snowplow-tracking-cli -c collector-rt.snplow.com --id component-release -s iglu:com.snowplowanalytics.engineering/release/jsonschema/1-1-0 -j '{"component": "${{ inputs.component }}", "version": "${{ inputs.version }}", "team": "${{ inputs.team }}"}'
