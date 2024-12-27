@@ -1,0 +1,30 @@
+name: "Track Snowplow component release"
+description: "Tracks a new release for a Snowplow component, using snowplow-tracking-cli"
+
+inputs:
+  component:
+    description: "Component that is being released"
+    required: true
+  version:
+    description: "Version of the new release, e.g. semver or commit hash"
+    required: true
+  team:
+    description: "Team that manages this component"
+    required: true
+
+runs:
+  using: ubuntu-latest
+  steps:
+    - name: Download snowplow-tracking-cli.zip
+      run: |
+        curl -L -o snowplow-tracking-cli.zip https://github.com/snowplow/snowplow-tracking-cli/releases/download/0.7.0/snowplow_tracking_cli_0.7.0_linux_amd64.zip
+
+    - name: Prepare snowplow-tracking-cli
+      run: |
+        sudo apt-get update && sudo apt-get install -y unzip || true
+        unzip snowplow_tracking_cli_0.7.0_linux_amd64.zip
+        chmod +x snowplow_tracking_cli
+
+    - name: Track the event
+      run: |
+        ./snowplow_tracking_cli -c collector-rt.snplow.com --id component-release -s iglu:com.snowplowanalytics.engineering/release/jsonschema/1-1-0 -j '{"component": "'${{ inputs.component }}'", "version": "'${{ inputs.version }}'", "team": "'${{ inputs.team }}'"}'
