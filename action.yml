@@ -13,7 +13,7 @@ inputs:
     required: true
 
 runs:
-  using: ubuntu-latest
+  using: 'composite'
   steps:
     - name: Download snowplow-tracking-cli.zip
       run: |
